@@ -1,22 +1,30 @@
 var socket = io.connect();
 
+//update HTML to view new message
 function addMessage(msg, pseudo) {
 	$("#chatEntries").append('<div class="message"><p>' + pseudo + " : " + msg + '</p></div>');
-
 }
 
+//called when a message is sent
 function sentMessage() {
+	//check if valid message
 	if ($('#messageInput').val() != "") {
+		//emit message to other members of chat
 		socket.emit('message', $('#messageInput').val());
-		addMessage($('#messageInput').val(), "Me", new Date().toISOString(), true);
+		//add message to chat
+		addMessage($('#messageInput').val(), "Me");
+		//reset input of the box
 		$('#messageInput').val('');
 	}
 }
 
+//set pseudonym of given user
 function setPseudo() {
-	if ($('#pseudoInput').val()) {
-		socket.emit('setPseudo', $('#pseudoinput').val());
-		console.log(($('#pseudoInput').val()));
+	//check if valid pseudo
+	if ($('#pseudoInput').val() != "") {
+		//emit this psuedonym to other members
+		socket.emit('setPseudo', $('#pseudoInput').val());
+		//restructure chat room to only show message box and previous messages
 		$('#chatControls').show();
 		$('#pseudoInput').hide();
 		$('#pseudoSet').hide();

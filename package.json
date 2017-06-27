@@ -6,6 +6,7 @@
   "dependencies": {
     "express": "^4.15.3",
     "jade": "^1.11.0",
+    "pug": "^2.0.0-rc.2",
     "socket.io": "^2.0.3"
   },
   "devDependencies": {},

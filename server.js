@@ -24,13 +24,22 @@ app.get('/', function (req, res) {
 io.sockets.on('connection', function (socket) {
 	socket.on('setPseudo', function (data) {
 		socket.pseudo = data;
+		var data = {pseudo: data};
+		socket.broadcast.emit('joined', data);
 	});
 
 	socket.on('message', function (message) {
-		var name = socket.pseudo;
-		var data = {'message' : message, pseudo: name};
+		console.log(socket.pseudo + " is your name");
+		var data = {'message' : message, pseudo: socket.pseudo};
 		socket.broadcast.emit('message', data);
 	});
+
+	socket.on('end'), function() {
+		var data = {pseudo: socket.pseudo};
+		socket.broadcast.emit('end', data);
+		console.log("socket closing");
+		socket.close();
+	}
 });
 
 //port we're listening on
